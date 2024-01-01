@@ -81,6 +81,21 @@ class AlbumServiceTest {
 
     @Test
     @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
+    fun `test album update not found exception`() {
+        assertThrows<NotFoundException> {
+            albumService.update(
+                AlbumDto(
+                    id = "id-not-exist",
+                    name = "test album updated",
+                    description = "test album description updated",
+                    date = LocalDate.now()
+                )
+            )
+        }
+    }
+
+    @Test
+    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find album by id`() {
         val albumDto = albumService.create(
             AlbumDto(
@@ -100,8 +115,6 @@ class AlbumServiceTest {
             albumService.findById("id-not-exist")
         }
     }
-
-
 
     @Test
     @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
@@ -187,5 +200,11 @@ class AlbumServiceTest {
 
         val album = albumService.findPhotoByAlbumId(albumDto.id!!)
         assert(album.files.size == 2)
+    }
+
+    @Test
+    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
+    fun `find files by album id exception`() {
+        assertThrows<NotFoundException> { albumService.findPhotoByAlbumId("id-not-exist") }
     }
 }

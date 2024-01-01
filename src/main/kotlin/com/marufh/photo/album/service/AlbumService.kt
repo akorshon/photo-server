@@ -33,7 +33,7 @@ class AlbumService(
         log.info("Updating album {}", albumDto)
 
         return albumRepository.findById(albumDto.id!!)
-            .orElseThrow { NotFoundException(String.format("Album not found with id: %s", albumDto.id)) }
+            .orElseThrow { NotFoundException("Album not found with id: $albumDto.id") }
             .let {
                 it.name = albumDto.name
                 it.description = albumDto.description
@@ -79,7 +79,7 @@ class AlbumService(
 
         return albumRepository.findByIdWithFiles(albumId)
             .map { albumMapper.toDto(it) }
-            .orElseThrow { NotFoundException("Not found") }
+            .orElseThrow { NotFoundException("Album not found for the id: $albumId") }
     }
 
     fun manageFile(albumId: String, fileId: String, action: String): AlbumDto {
