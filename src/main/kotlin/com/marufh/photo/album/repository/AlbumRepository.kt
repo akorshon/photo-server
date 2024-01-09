@@ -18,5 +18,5 @@ interface AlbumRepository : JpaRepository<Album, String> {
                 "LEFT JOIN a.files file " +
                 "WHERE file.id = ?1"
     )
-    fun fineByFileId(fileId: String?): List<Album?>?
+    fun fineByFileId(fileId: String): List<Album>
 }

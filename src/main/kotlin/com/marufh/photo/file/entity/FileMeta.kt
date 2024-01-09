@@ -15,26 +15,26 @@ class FileMeta(
     var base: String? = null,
 
     @Column(name = "src")
-    private var src: String? = null,
+    var src: String? = null,
 
     @Column(name = "thumb")
-    private var thumb: String? = null,
+    var thumb: String? = null,
 
     @Column(name = "caption")
-    private var caption: String? = null,
+    var caption: String? = null,
 
     @Column(name = "created_at")
-    private var createdAt: LocalDate? = null,
+    var createdAt: LocalDate? = null,
 
     @Column(name = "file_type")
     @Enumerated(EnumType.STRING)
-    private var type: FileType? = null,
+    var type: FileType? = null,
 
     @Column(name = "size")
-    private var size: Long? = null,
+    var size: Long? = null,
 
     @Column(name = "hash")
-    private var hash: String? = null,
+    var hash: String? = null,
 
     @Column(name = "favorite", columnDefinition = "tinyint(1)")
     var favorite: Boolean = false,

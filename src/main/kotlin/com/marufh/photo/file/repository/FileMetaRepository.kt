@@ -2,6 +2,7 @@ package com.marufh.photo.file.repository
 
 import com.marufh.photo.file.dto.FileCounter
 import com.marufh.photo.file.entity.FileMeta
+import com.marufh.photo.file.entity.FileType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -17,19 +18,19 @@ interface FileMetaRepository : JpaRepository<FileMeta, String> {
                 "(?3 IS NULL  OR f.type = ?3) " +
                 "ORDER BY f.name ASC "
     )
-    fun getFileByDateAndName(date: LocalDate?, name: String?, type: String?, pageable: Pageable?): Page<FileMeta?>?
+    fun getFileByDateAndName(date: LocalDate, name: String, type: FileType, pageable: Pageable): Page<FileMeta>
 
     @Query("select f from FileMeta f where f.deleted=false and f.createdAt <= ?1 ")
-    fun findAll(localDate: LocalDate?, pageable: Pageable?): Page<FileMeta?>?
+    fun findAll(localDate: LocalDate?, pageable: Pageable?): Page<FileMeta>
 
     @Query(value = "select f from FileMeta f where f.deleted=true")
-    fun findDeleted(pageable: Pageable?): Page<FileMeta?>?
+    fun findDeleted(pageable: Pageable?): Page<FileMeta>
 
     @Query(value = "select f from FileMeta f where f.archived=true")
-    fun findArchived(pageable: Pageable?): Page<FileMeta?>?
+    fun findArchived(pageable: Pageable): Page<FileMeta>
 
     @Query(value = "select f from FileMeta f where f.favorite=true and f.deleted=false")
-    fun findFavorite(pageable: Pageable?): Page<FileMeta?>?
+    fun findFavorite(pageable: Pageable?): Page<FileMeta>
 
     @Query(
         value = "SELECT YEAR(created_at) AS year, MONTH(created_at) AS month, DAY(created_at) as day, COUNT(id) AS count FROM FILE_META " +
