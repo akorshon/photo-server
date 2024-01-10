@@ -38,14 +38,15 @@ class ThumbService(
 
     fun create(file: File, thumbLocation: String): File? {
         log.info("Creating thumb: {} for: {}", thumbLocation, file)
+
         var thumbFile: File? = null
         try {
             Files.createDirectories(File(thumbLocation).toPath().parent)
             val extension: String = FileUtil.getExtension(file.getName())!!
-            val fileType: FileType = FileUtil.fileTypeMap.get(extension.lowercase(Locale.getDefault()))!!
-            if (fileType.equals(FileType.IMAGE)) {
+            val fileType: FileType? = FileUtil.fileTypeMap[extension.lowercase(Locale.getDefault())]
+            if (fileType == FileType.IMAGE) {
                 thumbFile = makeImageThumb(file, thumbLocation, 600, 360)
-            } else if (fileType.equals(FileType.VIDEO)) {
+            } else if (fileType == FileType.VIDEO) {
                 thumbFile = makeVideoThumb(file, thumbLocation)
             }
         } catch (e: Exception) {
@@ -56,6 +57,7 @@ class ThumbService(
 
     fun fixThumb(id: String) {
         log.info("Fixing thumb for id: {}", id)
+
         val fileMeta: FileMeta = fileMetaRepository.findById(id)
             .orElseThrow { RuntimeException("File not found") }
 
@@ -65,12 +67,10 @@ class ThumbService(
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-        val thumbFile: File = File(filePathProperties.base + "/" + EncodeUtil.decode(fileMeta.src))
+        val thumbFile = File(filePathProperties.base + "/" + EncodeUtil.decode(fileMeta.src))
         val file = create(thumbFile, filePathProperties.thumb + fileMeta.base)
         val thumbPath: String = Path.of(filePathProperties.base).relativize(
-            Path.of(
-                file!!.absolutePath
-            )
+            Path.of(file!!.absolutePath)
         ).toString()
         log.info("Thumb created: {}", thumbPath)
         fileMeta.thumb = EncodeUtil.encode(thumbPath)
@@ -90,14 +90,14 @@ class ThumbService(
                 }
                 val path: String =
                     filePathProperties.thumb + file.getParent().substring(filePathProperties.base.length)
-                val fileType: FileType = FileUtil.fileTypeMap.get(extension.lowercase(Locale.getDefault()))!!
-                if (fileType.equals(FileType.IMAGE) && Files.exists(Path.of(path + "/" + file.getName()))) {
+                val fileType: FileType? = FileUtil.fileTypeMap[extension.lowercase(Locale.getDefault())]
+                if (fileType == FileType.IMAGE && Files.exists(Path.of(path + "/" + file.getName()))) {
                     log.info("Thumb already exist for the file: {}", file.getName())
                     continue
                 }
-                if (FileUtil.fileTypeMap.get(extension.lowercase(Locale.getDefault())) === FileType.IMAGE) {
+                if (FileUtil.fileTypeMap[extension.lowercase(Locale.getDefault())] === FileType.IMAGE) {
                     makeImageThumb(file, path, 600, 360)
-                } else if (FileUtil.fileTypeMap.get(extension.lowercase(Locale.getDefault())) === FileType.VIDEO) {
+                } else if (FileUtil.fileTypeMap[extension.lowercase(Locale.getDefault())] === FileType.VIDEO) {
                     log.info("processing video file to create thumb")
                     makeVideoThumb(file, path)
                 }

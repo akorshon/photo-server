@@ -34,6 +34,8 @@ class FileUploadServiceTest: AbstractServiceTest() {
         assert(fileMeta.deleted == false)
         assert(fileMeta.archived == false)
         assert(fileMeta.tenant == "test")
+        assert(File(filePathProperties.media + fileMeta.base).exists())
+        assert(File(filePathProperties.thumb + fileMeta.base).exists())
     }
 
     @Test
@@ -48,14 +50,8 @@ class FileUploadServiceTest: AbstractServiceTest() {
             FileInputStream("src/test/resources/img/car.jpg")
         )
 
-        val fileMeta = fileUploadService.upload(file)
-        assert(fileMeta.id != null)
-        assert(fileMeta.name == "car.jpg")
-        assert(fileMeta.type == FileType.IMAGE)
-        assert(fileMeta.favorite == false)
-        assert(fileMeta.deleted == false)
-        assert(fileMeta.archived == false)
-        assert(fileMeta.tenant == "test")
+        // Upload first time
+        fileUploadService.upload(file)
 
         // upload same file again
         assertThrows<AlreadyExistException> {

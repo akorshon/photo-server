@@ -7,6 +7,7 @@ import com.marufh.photo.file.repository.FileMetaRepository
 import com.marufh.photo.file.service.FileMetaService
 import com.marufh.photo.file.service.FileService
 import com.marufh.photo.file.service.FileUploadService
+import com.marufh.photo.file.service.ThumbService
 import com.marufh.photo.tenant.TenantContext
 import org.junit.jupiter.api.BeforeEach
 import org.slf4j.LoggerFactory
@@ -34,6 +35,9 @@ abstract class AbstractServiceTest {
 
     @Autowired
     lateinit var albumRepository: AlbumRepository
+
+    @Autowired
+    lateinit var thumbService: ThumbService
 
     @Autowired
     lateinit var fileMetaRepository: FileMetaRepository
