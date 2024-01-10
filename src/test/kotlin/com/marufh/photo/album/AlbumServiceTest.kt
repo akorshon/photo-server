@@ -1,5 +1,6 @@
 package com.marufh.photo.album
 
+import com.marufh.photo.AbstractServiceTest
 import com.marufh.photo.album.dto.AlbumDto
 import com.marufh.photo.album.entity.AlbumAction
 import com.marufh.photo.album.repository.AlbumRepository
@@ -20,23 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 
-@SpringBootTest
-@ActiveProfiles("test")
-class AlbumServiceTest {
-
-    @Autowired
-    lateinit var albumService: AlbumService
-
-    @Autowired
-    lateinit var albumRepository: AlbumRepository
-
-    @Autowired
-    lateinit var fileMetaRepository: FileMetaRepository
-
-    @BeforeEach
-    fun setUp() {
-        TenantContext.setCurrentTenant("test");
-    }
+class AlbumServiceTest: AbstractServiceTest() {
 
     @Test
     @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"]) // It's necessary for audit data
@@ -170,7 +155,8 @@ class AlbumServiceTest {
                     thumb = "/test/thumbnail1",
                     favorite = false,
                     deleted = false,
-                    archived = false
+                    archived = false,
+                    createdAt = LocalDate.now()
                 ),
                 FileMeta(
                     name = "test file2",
@@ -181,7 +167,8 @@ class AlbumServiceTest {
                     thumb = "/test/thumbnail2",
                     favorite = false,
                     deleted = false,
-                    archived = false
+                    archived = false,
+                    createdAt = LocalDate.now()
                 )
             )
         )

@@ -1,35 +1,17 @@
 package com.marufh.photo.file
 
+import com.marufh.photo.AbstractServiceTest
 import com.marufh.photo.exception.NotFoundException
 import com.marufh.photo.file.entity.FileMeta
 import com.marufh.photo.file.entity.FileType
-import com.marufh.photo.file.repository.FileMetaRepository
-import com.marufh.photo.file.service.FileMetaService
-import com.marufh.photo.tenant.TenantContext
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ActiveProfiles
 import util.EncodeUtil
 import java.time.LocalDate
 
-@SpringBootTest
-@ActiveProfiles("test")
-class FileMetaServiceTest {
+class FileMetaServiceTest: AbstractServiceTest() {
 
-    @Autowired
-    lateinit var fileMetaService: FileMetaService
-
-    @Autowired
-    lateinit var fileMetaRepository: FileMetaRepository
-
-    @BeforeEach
-    fun setUp() {
-        TenantContext.setCurrentTenant("test");
-    }
 
     @Test
     fun `get file meta`() {
@@ -170,7 +152,6 @@ class FileMetaServiceTest {
         val updated = fileMetaService.getArchived(PageRequest.of(0, 100))
         assert(updated.content.size == 2)
     }
-
 
     @Test
     fun `test get deleted file`() {

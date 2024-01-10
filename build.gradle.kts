@@ -22,15 +22,19 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation ("javax.xml.bind:jaxb-api:2.3.1")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("com.mysql:mysql-connector-j")
 
-	implementation("io.jsonwebtoken:jjwt:0.9.1")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.imgscalr:imgscalr-lib:4.2")
+	implementation("ws.schild:jave-core:3.3.1")
+	implementation("ws.schild:jave-nativebin-osxm1:3.3.1")
+	implementation("com.drewnoakes:metadata-extractor:2.18.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 }

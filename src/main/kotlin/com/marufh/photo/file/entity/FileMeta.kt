@@ -9,26 +9,26 @@ import java.time.LocalDate
 class FileMeta(
 
     @Column(name = "name")
-    var name: String? = null,
+    var name: String,
 
     @Column(name = "base")
-    var base: String? = null,
+    var base: String,
 
     @Column(name = "src")
-    var src: String? = null,
+    var src: String,
 
     @Column(name = "thumb")
-    var thumb: String? = null,
-
-    @Column(name = "caption")
-    var caption: String? = null,
-
-    @Column(name = "created_at")
-    var createdAt: LocalDate? = null,
+    var thumb: String,
 
     @Column(name = "file_type")
     @Enumerated(EnumType.STRING)
-    var type: FileType? = null,
+    var type: FileType,
+
+    @Column(name = "created_at")
+    var createdAt: LocalDate,
+
+    @Column(name = "caption")
+    var caption: String? = null,
 
     @Column(name = "size")
     var size: Long? = null,

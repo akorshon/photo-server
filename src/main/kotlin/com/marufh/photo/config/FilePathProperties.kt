@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties(prefix = "file.path")
 data class FilePathProperties(
-    val base: String = "",
-    val media: String = "",
-    val thumb: String = "",
-    val tmp: String = "",
+    var base: String = "",
+    var media: String = "",
+    var thumb: String = "",
+    var tmp: String = "",
 )
+

@@ -17,6 +17,7 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
+import util.EncodeUtil
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -50,9 +51,12 @@ class InitialDevData(
         val fileMeta = FileMeta(
             name = "My File",
             caption = "My File Description",
-            base = "/tmp/myfile",
+            base = "/base",
+            src = EncodeUtil.encode("src"),
+            thumb = EncodeUtil.encode("thumb"),
             size = 1000,
             type = FileType.IMAGE,
+            createdAt = LocalDate.now(),
         )
         fileMetaRepository.save(fileMeta)
     }
