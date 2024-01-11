@@ -18,7 +18,7 @@ interface FileMetaRepository : JpaRepository<FileMeta, String> {
                 "(?3 IS NULL  OR f.type = ?3) " +
                 "ORDER BY f.name ASC "
     )
-    fun getFileByDateAndName(date: LocalDate, name: String, type: FileType, pageable: Pageable): Page<FileMeta>
+    fun getFileByDateAndName(date: LocalDate?, name: String?, type: FileType?, pageable: Pageable): Page<FileMeta>
 
     @Query("select f from FileMeta f where f.deleted=false and f.createdAt <= ?1 ")
     fun findAll(localDate: LocalDate?, pageable: Pageable?): Page<FileMeta>
@@ -37,7 +37,7 @@ interface FileMetaRepository : JpaRepository<FileMeta, String> {
                 "where deleted=false and archived=false and tenant=?1  " +
                 "group by year, month, day order by year desc, month desc, day desc ", nativeQuery = true
     )
-    fun getFileCount(tenant: String?): List<FileCounter?>? /*@Query(value = "" +
+    fun getFileCount(tenant: String): List<FileCounter> /*@Query(value = "" +
             "SELECT  f.* " +
             "    FROM FILE_META f " +
             "    INNER JOIN ( " +

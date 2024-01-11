@@ -4,10 +4,8 @@ import com.marufh.photo.album.repository.AlbumRepository
 import com.marufh.photo.album.service.AlbumService
 import com.marufh.photo.config.FilePathProperties
 import com.marufh.photo.file.repository.FileMetaRepository
-import com.marufh.photo.file.service.FileMetaService
-import com.marufh.photo.file.service.FileService
-import com.marufh.photo.file.service.FileUploadService
-import com.marufh.photo.file.service.ThumbService
+import com.marufh.photo.file.service.*
+import com.marufh.photo.security.jwt.TokenProvider
 import com.marufh.photo.tenant.TenantContext
 import org.junit.jupiter.api.BeforeEach
 import org.slf4j.LoggerFactory
@@ -34,6 +32,9 @@ abstract class AbstractServiceTest {
     lateinit var fileUploadService: FileUploadService
 
     @Autowired
+    lateinit var fileDownloadService: FileDownloadService
+
+    @Autowired
     lateinit var albumRepository: AlbumRepository
 
     @Autowired
@@ -41,6 +42,10 @@ abstract class AbstractServiceTest {
 
     @Autowired
     lateinit var fileMetaRepository: FileMetaRepository
+
+
+    @Autowired
+    lateinit var tokenProvider: TokenProvider
 
     @BeforeEach
     fun setUp() {

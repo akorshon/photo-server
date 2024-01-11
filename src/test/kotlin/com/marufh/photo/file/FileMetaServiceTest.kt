@@ -15,8 +15,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `get file meta`() {
-
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -95,7 +95,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test favorite`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -121,7 +122,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test get archive file`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -155,7 +157,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test get deleted file`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -189,7 +192,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test get favourite file`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -223,7 +227,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test restore file`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -249,7 +254,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test archive`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -275,7 +281,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test delete first time`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,
@@ -298,7 +305,8 @@ class FileMetaServiceTest: AbstractServiceTest() {
 
     @Test
     fun `test delete permantly`() {
-        fileMetaRepository.deleteAll();
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
             name = "test1",
             type = FileType.IMAGE,

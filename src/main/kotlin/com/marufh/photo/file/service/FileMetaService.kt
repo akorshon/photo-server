@@ -34,7 +34,7 @@ class FileMetaService(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun getFileMeta(date: LocalDate, name: String, type: FileType, pageable: Pageable): Page<FileMeta> {
+    fun getFileMeta(date: LocalDate?, name: String?, type: FileType?, pageable: Pageable): Page<FileMeta> {
         log.info("getting all file meta for date: {}", date)
 
         val page: PageRequest = PageRequest.of(pageable.pageNumber, 100)
