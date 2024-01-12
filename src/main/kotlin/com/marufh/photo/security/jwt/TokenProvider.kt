@@ -1,7 +1,11 @@
 package com.marufh.photo.security.jwt
 
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.SignatureException
+import io.jsonwebtoken.UnsupportedJwtException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
@@ -37,15 +41,15 @@ class TokenProvider {
         try {
             Jwts.parser().setSigningKey(TMP_SIGNATURE_KEY).parseClaimsJws(authToken)
             return true
-        } /*catch (SignatureException ex) {
+        } catch (ex: SignatureException) {
             log.error("Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
+        } catch (ex: MalformedJwtException) {
             log.error("Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
+        } catch (ex: ExpiredJwtException) {
             log.error("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
+        } catch (ex: UnsupportedJwtException) {
             log.error("Unsupported JWT token");
-        }*/ catch (ex: IllegalArgumentException) {
+        } catch (ex: IllegalArgumentException) {
             log.error("JWT claims string is empty.")
         }
         return false

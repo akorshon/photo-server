@@ -24,8 +24,8 @@ import java.time.LocalDate
 class AlbumServiceTest: AbstractServiceTest() {
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"]) // It's necessary for audit data
-    fun `test album creation`() {
+    //@WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"]) // It's necessary for audit data
+    fun `album creation`() {
         val albumDto = albumService.create(
             AlbumDto(
             name = "test album",
@@ -39,8 +39,7 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
-    fun `test album update`() {
+    fun `album update`() {
 
         val albumDto = albumService.create(
             AlbumDto(
@@ -65,8 +64,7 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
-    fun `test album update not found exception`() {
+    fun `album update not found exception`() {
         assertThrows<NotFoundException> {
             albumService.update(
                 AlbumDto(
@@ -80,7 +78,6 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find album by id`() {
         val albumDto = albumService.create(
             AlbumDto(
@@ -93,7 +90,6 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find album by id exception`() {
 
         assertThrows<NotFoundException> {
@@ -102,7 +98,6 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find all albums`(){
 
         albumRepository.deleteAll()
@@ -126,8 +121,7 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
-    fun `test album delete`() {
+    fun `album deletion`() {
 
         val albumDto = albumService.create(
             AlbumDto(
@@ -141,7 +135,6 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find files by album id`() {
 
         val files = fileMetaRepository.saveAll(
@@ -190,7 +183,6 @@ class AlbumServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com", password = "test", roles = ["USER"])
     fun `find files by album id exception`() {
         assertThrows<NotFoundException> { albumService.findPhotoByAlbumId("id-not-exist") }
     }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 class AlbumMapper {
 
     /* TODO Replace by mapstruct */
-
     fun toDto(album: Album): AlbumDto {
         return AlbumDto(
             id = album.id,

@@ -14,7 +14,7 @@ class AuditorAwareCustom : AuditorAware<String> {
         val securityContext = SecurityContextHolder.getContext()
         if (securityContext?.authentication == null) {
             log.error("No user authenticated")
-            return Optional.empty()
+            return Optional.of("Anonymous")
         }
         val user: User = securityContext.authentication.principal as User
         return Optional.of(user.username)

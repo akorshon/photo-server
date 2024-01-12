@@ -6,6 +6,9 @@ import com.marufh.photo.file.entity.FileType
 import com.marufh.photo.file.repository.FileMetaRepository
 import org.imgscalr.Scalr
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import util.EncodeUtil
 import util.FileUtil
@@ -74,6 +77,35 @@ class ThumbService(
         ).toString()
         log.info("Thumb created: {}", thumbPath)
         fileMeta.thumb = EncodeUtil.encode(thumbPath)
+    }
+
+    fun generateThumb() {
+        log.info("Generating thumb is started ")
+        var pageRequest: Pageable = PageRequest.of(0, 500)
+        var onePage: Page<FileMeta> = fileMetaRepository.findAll(pageRequest)
+        while (!onePage.isEmpty()) {
+            pageRequest = pageRequest.next()
+            val fileMetas: MutableList<FileMeta> = ArrayList<FileMeta>()
+            for (fileMeta in onePage.getContent()) {
+                if (fileMeta.thumb != null) {
+                    continue
+                }
+                log.info("Generating thumb for: {}", fileMeta.name)
+                try {
+                    val file: File = File(filePathProperties.media + fileMeta.base)
+                    val thumbFileStr: String = file.absolutePath.replace(filePathProperties.media, filePathProperties.thumb)
+                    val thumbFile: File = create(file, thumbFileStr)!!
+                    val thumbPath: String = Path.of(filePathProperties.base).relativize(Path.of(thumbFile.absolutePath)).toString()
+                    fileMeta.thumb = EncodeUtil.encode(thumbPath)
+                    fileMetas.add(fileMeta)
+                } catch (e: Exception) {
+                    log.warn("Error generating thumb: {}", e.message)
+                }
+            }
+            fileMetaRepository.saveAll(fileMetas)
+            onePage = fileMetaRepository.findAll(pageRequest)
+        }
+        log.info("Generating thumb is finished")
     }
 
     private fun createThumbRecursively(currentDir: File) {

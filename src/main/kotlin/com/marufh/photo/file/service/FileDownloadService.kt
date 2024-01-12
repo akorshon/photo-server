@@ -22,10 +22,10 @@ import java.util.concurrent.TimeUnit
 
 @Service
 class FileDownloadService(
-    val tokenProvider: TokenProvider,
-    val resourceLoader: ResourceLoader,
-    val fileServiceBase: FileServiceBase,
-    val filePathProperties: FilePathProperties) {
+    private val tokenProvider: TokenProvider,
+    private val resourceLoader: ResourceLoader,
+    private val fileServiceBase: FileServiceBase,
+    private val filePathProperties: FilePathProperties) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -37,6 +37,7 @@ class FileDownloadService(
         val decodePhotoPath: String = EncodeUtil.decode(encodedPath)
         val path = Path.of(filePathProperties.base, decodePhotoPath)
         log.info("Downloading file: {}", path)
+
         val ext: String = FileUtil.getExtension(decodePhotoPath)
             ?: return ResponseEntity.status(HttpStatus.OK)
                 .cacheControl(CacheControl.maxAge(365, TimeUnit.DAYS))
@@ -57,6 +58,7 @@ class FileDownloadService(
         } catch (e: IOException) {
             log.error("Loading image failed, {}", e.message)
         }
+
         return ResponseEntity.status(HttpStatus.OK)
             .cacheControl(CacheControl.maxAge(365, TimeUnit.DAYS))
             .contentType(fileServiceBase.getMedia(ext))

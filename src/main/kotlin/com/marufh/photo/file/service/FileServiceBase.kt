@@ -108,7 +108,7 @@ class FileServiceBase(
     }
 
     fun getMedia(ext: String): MediaType {
-        val mime: String = FileUtil.mimeTypeMapping.get(ext.lowercase(Locale.getDefault()))!!
+        val mime: String? = FileUtil.mimeTypeMapping[ext.lowercase(Locale.getDefault())]
         return if (mime != null) {
             MediaType.valueOf(mime)
         } else MediaType.APPLICATION_OCTET_STREAM

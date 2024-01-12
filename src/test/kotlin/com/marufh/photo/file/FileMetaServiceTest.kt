@@ -12,9 +12,8 @@ import java.time.LocalDate
 
 class FileMetaServiceTest: AbstractServiceTest() {
 
-
     @Test
-    fun `get file meta`() {
+    fun `get file with different filters`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -94,7 +93,7 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test favorite`() {
+    fun `create favorite file`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -116,82 +115,12 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test favorite exception`() {
+    fun `create favorite file exception`() {
         assertThrows<NotFoundException> { fileMetaService.favorite("id-not-existed", true) }
     }
 
     @Test
-    fun `test get archive file`() {
-        albumRepository.deleteAll()
-        fileMetaRepository.deleteAll()
-        val fileMeta = listOf(FileMeta(
-            name = "test1",
-            type = FileType.IMAGE,
-            createdAt = LocalDate.now(),
-            base = "/base",
-            caption = "caption",
-            src = EncodeUtil.encode("src"),
-            thumb = EncodeUtil.encode("thumb"),
-            size = 100,
-            favorite = false,
-            deleted = false,
-            archived = true
-        ),
-        FileMeta(
-            name = "test2",
-            type = FileType.IMAGE,
-            createdAt = LocalDate.now(),
-            base = "/base",
-            caption = "caption",
-            src = EncodeUtil.encode("src"),
-            thumb = EncodeUtil.encode("thumb"),
-            size = 100,
-            favorite = false,
-            deleted = false,
-            archived = true
-        )).let { fileMetaRepository.saveAll(it) }
-
-        val updated = fileMetaService.getArchived(PageRequest.of(0, 100))
-        assert(updated.content.size == 2)
-    }
-
-    @Test
-    fun `test get deleted file`() {
-        albumRepository.deleteAll()
-        fileMetaRepository.deleteAll()
-        val fileMeta = listOf(FileMeta(
-            name = "test1",
-            type = FileType.IMAGE,
-            createdAt = LocalDate.now(),
-            base = "/base",
-            caption = "caption",
-            src = EncodeUtil.encode("src"),
-            thumb = EncodeUtil.encode("thumb"),
-            size = 100,
-            favorite = false,
-            deleted = true,
-            archived = true
-        ),
-            FileMeta(
-                name = "test2",
-                type = FileType.IMAGE,
-                createdAt = LocalDate.now(),
-                base = "/base",
-                caption = "caption",
-                src = EncodeUtil.encode("src"),
-                thumb = EncodeUtil.encode("thumb"),
-                size = 100,
-                favorite = false,
-                deleted = true,
-                archived = true
-            )).let { fileMetaRepository.saveAll(it) }
-
-        val updated = fileMetaService.getDeleted(PageRequest.of(0, 100))
-        assert(updated.content.size == 2)
-    }
-
-    @Test
-    fun `test get favourite file`() {
+    fun `get favourite files`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -226,34 +155,7 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test restore file`() {
-        albumRepository.deleteAll()
-        fileMetaRepository.deleteAll()
-        val fileMeta = listOf(FileMeta(
-            name = "test1",
-            type = FileType.IMAGE,
-            createdAt = LocalDate.now(),
-            base = "/base",
-            caption = "caption",
-            src = EncodeUtil.encode("src"),
-            thumb = EncodeUtil.encode("thumb"),
-            size = 100,
-            favorite = true,
-            deleted = true,
-            archived = true
-        )).let { fileMetaRepository.saveAll(it) }
-
-        val updated = fileMetaService.restore(fileMeta[0].id!!)
-        assert(!updated.deleted)
-    }
-
-    @Test
-    fun `test restore file exception`() {
-        assertThrows<NotFoundException> { fileMetaService.restore("id-not-existed") }
-    }
-
-    @Test
-    fun `test archive`() {
+    fun `create archived file`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -275,12 +177,47 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test archive exception`() {
+    fun `create archived file exception`() {
         assertThrows<NotFoundException> { fileMetaService.archive("id-not-existed") }
     }
 
     @Test
-    fun `test delete first time`() {
+    fun `get archived files`() {
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
+        val fileMeta = listOf(FileMeta(
+            name = "test1",
+            type = FileType.IMAGE,
+            createdAt = LocalDate.now(),
+            base = "/base",
+            caption = "caption",
+            src = EncodeUtil.encode("src"),
+            thumb = EncodeUtil.encode("thumb"),
+            size = 100,
+            favorite = false,
+            deleted = false,
+            archived = true
+        ),
+            FileMeta(
+                name = "test2",
+                type = FileType.IMAGE,
+                createdAt = LocalDate.now(),
+                base = "/base",
+                caption = "caption",
+                src = EncodeUtil.encode("src"),
+                thumb = EncodeUtil.encode("thumb"),
+                size = 100,
+                favorite = false,
+                deleted = false,
+                archived = true
+            )).let { fileMetaRepository.saveAll(it) }
+
+        val updated = fileMetaService.getArchived(PageRequest.of(0, 100))
+        assert(updated.content.size == 2)
+    }
+
+    @Test
+    fun `file soft delete`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -304,7 +241,7 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test delete permantly`() {
+    fun `file permanently delete`() {
         albumRepository.deleteAll()
         fileMetaRepository.deleteAll()
         val fileMeta = listOf(FileMeta(
@@ -329,7 +266,70 @@ class FileMetaServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun `test delete exception`() {
+    fun `get deleted files`() {
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
+        val fileMeta = listOf(FileMeta(
+            name = "test1",
+            type = FileType.IMAGE,
+            createdAt = LocalDate.now(),
+            base = "/base",
+            caption = "caption",
+            src = EncodeUtil.encode("src"),
+            thumb = EncodeUtil.encode("thumb"),
+            size = 100,
+            favorite = false,
+            deleted = true,
+            archived = true
+        ),
+            FileMeta(
+                name = "test2",
+                type = FileType.IMAGE,
+                createdAt = LocalDate.now(),
+                base = "/base",
+                caption = "caption",
+                src = EncodeUtil.encode("src"),
+                thumb = EncodeUtil.encode("thumb"),
+                size = 100,
+                favorite = false,
+                deleted = true,
+                archived = true
+            )).let { fileMetaRepository.saveAll(it) }
+
+        val updated = fileMetaService.getDeleted(PageRequest.of(0, 100))
+        assert(updated.content.size == 2)
+    }
+
+    @Test
+    fun `file delete exception`() {
         assertThrows<NotFoundException> { fileMetaService.delete("id-not-existed") }
     }
+
+    @Test
+    fun `file restore from delete`() {
+        albumRepository.deleteAll()
+        fileMetaRepository.deleteAll()
+        val fileMeta = listOf(FileMeta(
+            name = "test1",
+            type = FileType.IMAGE,
+            createdAt = LocalDate.now(),
+            base = "/base",
+            caption = "caption",
+            src = EncodeUtil.encode("src"),
+            thumb = EncodeUtil.encode("thumb"),
+            size = 100,
+            favorite = true,
+            deleted = true,
+            archived = true
+        )).let { fileMetaRepository.saveAll(it) }
+
+        val updated = fileMetaService.restore(fileMeta[0].id!!)
+        assert(!updated.deleted)
+    }
+
+    @Test
+    fun `file restore from delete exception`() {
+        assertThrows<NotFoundException> { fileMetaService.restore("id-not-existed") }
+    }
+
 }

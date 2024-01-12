@@ -35,6 +35,12 @@ abstract class AbstractServiceTest {
     lateinit var fileDownloadService: FileDownloadService
 
     @Autowired
+    lateinit var fileCountService: FileCountService
+
+    @Autowired
+    lateinit var fileCleanService: FileCleanService
+
+    @Autowired
     lateinit var albumRepository: AlbumRepository
 
     @Autowired
@@ -42,7 +48,6 @@ abstract class AbstractServiceTest {
 
     @Autowired
     lateinit var fileMetaRepository: FileMetaRepository
-
 
     @Autowired
     lateinit var tokenProvider: TokenProvider
